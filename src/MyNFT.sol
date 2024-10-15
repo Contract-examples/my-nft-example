@@ -8,17 +8,17 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract MyNFT is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
     uint256 private NextTokenId;
-    uint256 private MAX_SUPPLY;
+    uint256 public MaxSupply;
     uint256 public MintSupplyForUsers;
 
     error maxSupplyReached();
 
     constructor(address initialOwner) ERC721("MyNFT", "MFT") Ownable(initialOwner) {
-        MAX_SUPPLY = 1000;
+        MaxSupply = 1000;
     }
 
     function safeMint(address to, string memory uri) public onlyOwner {
-        if (NextTokenId >= MAX_SUPPLY) {
+        if (NextTokenId >= MaxSupply) {
             revert maxSupplyReached();
         }
 
@@ -29,7 +29,7 @@ contract MyNFT is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
 
     // The following function for self mint without owner legibility
     function safeMintForUsers(address to, string memory uri) public {
-        if (NextTokenId >= MAX_SUPPLY) {
+        if (NextTokenId >= MaxSupply) {
             revert maxSupplyReached();
         }
 
