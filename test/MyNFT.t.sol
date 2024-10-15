@@ -26,7 +26,7 @@ contract MyNFTTest is Test {
     function testSafeMint() public {
         vm.prank(owner);
         nft.safeMint(user1, "ipfs://test-uri-1");
-        
+
         assertEq(nft.balanceOf(user1), 1);
         assertEq(nft.ownerOf(0), user1);
         assertEq(nft.tokenURI(0), "ipfs://test-uri-1");
@@ -36,7 +36,7 @@ contract MyNFTTest is Test {
     function testSafeMintForUsers() public {
         vm.prank(user1);
         nft.safeMintForUsers(user1, "ipfs://test-uri-2");
-        
+
         assertEq(nft.balanceOf(user1), 1);
         assertEq(nft.ownerOf(0), user1);
         assertEq(nft.tokenURI(0), "ipfs://test-uri-2");
@@ -44,13 +44,13 @@ contract MyNFTTest is Test {
     }
 
     function testMaxSupply() public {
-        for (uint i = 0; i < 1000; i++) {
+        for (uint256 i = 0; i < 1000; i++) {
             vm.prank(user1);
             nft.safeMintForUsers(user1, string(abi.encodePacked("ipfs://test-uri-", vm.toString(i))));
         }
-        
+
         assertEq(nft.MintSupplyForUsers(), 1000);
-        
+
         vm.expectRevert(MyNFT.maxSupplyReached.selector);
         vm.prank(user2);
         nft.safeMintForUsers(user2, "ipfs://test-uri-1001");
